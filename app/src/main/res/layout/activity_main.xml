@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.fsm.wordgame.viewmodel.GameViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".view.MainActivity">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text"
@@ -14,43 +21,49 @@
             android:layout_height="wrap_content"
             android:text="Hello World!"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_score_wrong" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_score_correct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text=" 0 "
+            android:layout_margin="8dp"
+            android:text="@{@string/score_value(viewModel.correctCount)}"
             android:textColor="@android:color/holo_green_dark"
             android:textSize="30sp"
             app:layout_constraintEnd_toStartOf="@+id/btn_correct"
             app:layout_constraintStart_toEndOf="@+id/txt_score_missed"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_score_missed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text=" 0 "
+            android:text="@{@string/score_value(viewModel.missedCount)}"
             android:textColor="@android:color/holo_orange_light"
             android:textSize="30sp"
+            android:layout_margin="8dp"
             app:layout_constraintEnd_toStartOf="@+id/txt_score_correct"
             app:layout_constraintStart_toEndOf="@+id/txt_score_wrong"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_score_wrong"
             android:layout_width="wrap_content"
+            android:layout_margin="8dp"
             android:layout_height="wrap_content"
-            tools:text=" 0 "
+            android:text="@{@string/score_value(viewModel.wrongCount)}"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
             app:layout_constraintEnd_toStartOf="@+id/txt_score_missed"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/btn_wrong"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0" />
 
         <View
             android:id="@+id/spacer"
@@ -88,13 +101,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/word_placeholder"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="@id/btn_correct"
             app:layout_constraintBottom_toBottomOf="@id/btn_correct"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_correct" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
