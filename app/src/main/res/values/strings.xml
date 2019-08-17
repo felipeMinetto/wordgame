@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WordGame</string>
+    <string name="word_placeholder">The word</string>
 </resources>
