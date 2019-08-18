@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="com.fsm.wordgame.viewmodel.GameViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,13 +22,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.currentPair.textSpa}"
-            app:textAllCaps="true"
             android:textColor="@color/dark_gray"
             android:textSize="14sp"
-            tools:text="Text test"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_score_wrong" />
+            app:layout_constraintTop_toBottomOf="@id/txt_score_wrong"
+            app:textAllCaps="true"
+            tools:text="Text test" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_score_correct"
@@ -83,6 +85,7 @@
             android:layout_margin="@dimen/button_margins"
             android:background="@drawable/red_round_bg"
             android:tint="@android:color/white"
+            android:visibility="@{viewModel.gameRunning ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +98,7 @@
             android:layout_margin="@dimen/button_margins"
             android:background="@drawable/green_round_bg"
             android:tint="@android:color/white"
+            android:visibility="@{viewModel.gameRunning ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_check" />
@@ -103,28 +107,44 @@
             android:id="@+id/original_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="@{viewModel.currentPair.textEng}"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:maxLines="1"
-            app:textAllCaps="true"
+            android:visibility="@{viewModel.gameRunning ? View.VISIBLE : View.GONE}"
             app:autoSizeMaxTextSize="24sp"
             app:autoSizeMinTextSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/btn_correct"
             app:layout_constraintEnd_toStartOf="@+id/btn_correct"
             app:layout_constraintStart_toEndOf="@+id/btn_wrong"
             app:layout_constraintTop_toTopOf="@id/btn_correct"
+            app:textAllCaps="true"
             tools:text="@string/word_placeholder" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_game_over"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="@string/game_over"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/play_button_background"
             android:text="@string/play"
             android:textColor="@android:color/white"
-            android:background="@drawable/play_button_background"
+            android:visibility="@{viewModel.gameRunning ? View.GONE : View.VISIBLE }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

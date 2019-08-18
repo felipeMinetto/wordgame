@@ -51,6 +51,17 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
             if (it > 0) animateFeedback(binding.imgWrong)
         })
 
+        viewModel.gameRunning.observe(this, Observer {
+            if (it){
+                binding.translatedText.visibility = VISIBLE
+                binding.txtGameOver.visibility = GONE
+            } else {
+                binding.translatedText.visibility = GONE
+                binding.txtGameOver.visibility = VISIBLE
+
+            }
+        })
+
         viewModel.errorMessage.observe(this, Observer {
             AlertDialog.Builder(this)
                     .setMessage(it)
@@ -60,6 +71,8 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
                     }
                     .setNegativeButton(android.R.string.no, null)
         })
+
+        binding.txtGameOver.visibility = GONE
 
         binding.btnCorrect.setOnClickListener {
             animation.cancel()
@@ -72,7 +85,7 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
         }
 
         binding.btnStart.setOnClickListener {
-            viewModel.prepareNextWord()
+            viewModel.startGame()
             binding.btnStart.visibility = GONE
         }
     }
@@ -99,11 +112,16 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
                 .after(fadein)
                 .after(500)
 
-        set.doOnStart { view.visibility = VISIBLE }
+        set.doOnStart {
+            view.visibility = VISIBLE
+            binding.btnCorrect.isEnabled = false
+            binding.btnCorrect.isEnabled = false
+        }
         set.doOnEnd {
             view.visibility = GONE
             viewModel.prepareNextWord()
-
+            binding.btnCorrect.isEnabled = true
+            binding.btnCorrect.isEnabled = true
         }
         set.start()
     }

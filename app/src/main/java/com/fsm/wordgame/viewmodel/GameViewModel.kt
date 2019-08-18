@@ -13,12 +13,15 @@ import kotlin.random.Random
 
 class GameViewModel : ViewModel() {
 
+    private var roundCount = 0
     private var translationList = emptyList<TranslationPair>().toMutableList()
+
     val correctCount = MutableLiveData<Int>().apply { value = 0 }
     val missedCount = MutableLiveData<Int>().apply { value = 0 }
     val wrongCount = MutableLiveData<Int>().apply { value = 0 }
     val errorMessage = MutableLiveData<String>().apply { value = "" }
     val currentPair = MutableLiveData<TranslationPair>()
+    val gameRunning = MutableLiveData<Boolean>().apply { value = false }
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -36,14 +39,19 @@ class GameViewModel : ViewModel() {
     }
 
     fun prepareNextWord() {
-        val index = Random.nextInt(translationList.size)
-        val pair = translationList[index]
-        if (Random.nextInt(3) == 1) { // 1 in 3 chance of being the wrong word plus the natural chance of coincidence
-            val index2 = Random.nextInt(translationList.size)
-            val wrongPair = translationList[index2]
-            currentPair.value = TranslationPair(pair.textEng, wrongPair.textSpa, index == index2)
+        if (gameRunning.value == true && roundCount < MAX_ROUNDS) {
+            roundCount++
+            val index = Random.nextInt(translationList.size)
+            val pair = translationList[index]
+            if (Random.nextInt(3) == 1) { // 1 in 3 chance of being the wrong word plus the natural chance of coincidence
+                val index2 = Random.nextInt(translationList.size)
+                val wrongPair = translationList[index2]
+                currentPair.value = TranslationPair(pair.textEng, wrongPair.textSpa, index == index2)
+            } else {
+                currentPair.value = pair
+            }
         } else {
-            currentPair.value = pair
+            gameRunning.value = false
         }
     }
 
@@ -81,5 +89,18 @@ class GameViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+    }
+
+    fun startGame() {
+        gameRunning.value = true
+        correctCount.value = 0
+        missedCount.value = 0
+        wrongCount.value = 0
+        roundCount = 0
+        prepareNextWord()
+    }
+
+    companion object {
+        private const val MAX_ROUNDS = 30
     }
 }
