@@ -2,6 +2,6 @@
     <string name="app_name">WordGame</string>
     <string name="word_placeholder">The word</string>
     <string name="score_value">%d</string>
-    <string name="start">START</string>
     <string name="error">Error</string>
+    <string name="play">play</string>
 </resources>

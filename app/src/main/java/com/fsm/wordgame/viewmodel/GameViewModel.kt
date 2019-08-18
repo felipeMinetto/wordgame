@@ -38,22 +38,13 @@ class GameViewModel : ViewModel() {
     fun prepareNextWord() {
         val index = Random.nextInt(translationList.size)
         val pair = translationList[index]
-        if (Random.nextInt(4) == 1) { // 25% chance of beeing the wrong word plus the natural chance of coincidence
+        if (Random.nextInt(3) == 1) { // 1 in 3 chance of being the wrong word plus the natural chance of coincidence
             val index2 = Random.nextInt(translationList.size)
             val wrongPair = translationList[index2]
             currentPair.value = TranslationPair(pair.textEng, wrongPair.textSpa, index == index2)
         } else {
             currentPair.value = pair
         }
-    }
-
-    fun clearCD() {
-        compositeDisposable.clear()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.dispose()
     }
 
     fun checkCorrectPair() {
@@ -64,7 +55,6 @@ class GameViewModel : ViewModel() {
                 wrongCount.postValue(wrongCount.value?.plus(1))
             }
         }
-        prepareNextWord()
     }
 
     fun checkWrongPair() {
@@ -75,7 +65,6 @@ class GameViewModel : ViewModel() {
                 wrongCount.postValue(wrongCount.value?.plus(1))
             }
         }
-        prepareNextWord()
     }
 
     fun missedWord() {
@@ -83,5 +72,14 @@ class GameViewModel : ViewModel() {
             missedCount.postValue(missedCount.value?.plus(1))
         }
         prepareNextWord()
+    }
+
+    fun clearCD() {
+        compositeDisposable.clear()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 }
