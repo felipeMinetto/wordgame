@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
                         viewModel.loadWords(assets.open("words_v2.json"))
                     }
                     .setNegativeButton(android.R.string.no, null)
+                .create().show()
         })
 
         binding.txtGameOver.visibility = GONE
@@ -90,8 +91,7 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
         }
     }
 
-    fun animateText(duration: Long) {
-
+    private fun animateText(duration: Long) {
         animation = binding.translatedText
                 .animate()
                 .translationY(binding.originalText.y)
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
         animation.start()
     }
 
-    fun animateFeedback(view: View) {
+    private fun animateFeedback(view: View) {
         val fadein = ObjectAnimator.ofFloat(view, View.ALPHA, 1f)
         fadein.duration = 300
 
@@ -115,13 +115,13 @@ class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
         set.doOnStart {
             view.visibility = VISIBLE
             binding.btnCorrect.isEnabled = false
-            binding.btnCorrect.isEnabled = false
+            binding.btnWrong.isEnabled = false
         }
         set.doOnEnd {
             view.visibility = GONE
             viewModel.prepareNextWord()
             binding.btnCorrect.isEnabled = true
-            binding.btnCorrect.isEnabled = true
+            binding.btnWrong.isEnabled = true
         }
         set.start()
     }

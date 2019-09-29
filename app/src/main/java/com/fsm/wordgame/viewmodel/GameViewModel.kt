@@ -1,6 +1,5 @@
 package com.fsm.wordgame.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fsm.wordgame.data.Parser
@@ -13,29 +12,28 @@ import kotlin.random.Random
 
 class GameViewModel : ViewModel() {
 
-    private var roundCount = 0
-    private var translationList = emptyList<TranslationPair>().toMutableList()
+    var roundCount = 0
+    var translationList = emptyList<TranslationPair>()
 
     val correctCount = MutableLiveData<Int>().apply { value = 0 }
     val missedCount = MutableLiveData<Int>().apply { value = 0 }
     val wrongCount = MutableLiveData<Int>().apply { value = 0 }
-    val errorMessage = MutableLiveData<String>().apply { value = "" }
+    val errorMessage = MutableLiveData<String>()
     val currentPair = MutableLiveData<TranslationPair>()
-    val gameRunning = MutableLiveData<Boolean>().apply { value = false }
+    val gameRunning = MutableLiveData<Boolean>()
 
     private val compositeDisposable = CompositeDisposable()
 
     fun loadWords(fileIS: InputStream) {
         compositeDisposable.add(
-                Parser.parseFromJsonIS(fileIS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeBy(
-                                onSuccess = { translationList = it },
-                                onError = {
-                                    Log.e("error - loadWords", it.localizedMessage)
-                                    errorMessage.value = "Could not load data for the game! Try again?"
-                                }
-                        ))
+            Parser.parseFromJsonIS(fileIS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(
+                    onSuccess = { translationList = it },
+                    onError = {
+                        errorMessage.value = "Could not load data for the game! Try again?"
+                    }
+                ))
     }
 
     fun prepareNextWord() {

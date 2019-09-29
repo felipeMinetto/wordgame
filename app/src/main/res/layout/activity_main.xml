@@ -70,14 +70,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="0" />
 
-        <View
-            android:id="@+id/spacer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/txt_score_correct"
-            app:layout_constraintStart_toStartOf="@id/txt_score_wrong" />
-
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_wrong"
             android:layout_width="@dimen/button_size"
